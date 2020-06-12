@@ -1,3 +1,4 @@
+{% load cart_template_tags %}
 <body class="goto-here">
 	<div class="py-1 bg-primary">
 		<div class="container">
@@ -32,7 +33,7 @@
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a href="/home" class="nav-link">Home</a></li>
+					<li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="false">Shop</a>
@@ -47,8 +48,8 @@
 					<li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
 					<li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
 					{% if request.user.is_authenticated %}
-						<li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link">
-						<span class="icon-shopping_cart"></span>[0]</a></li>
+						<li class="nav-item cta cta-colored"><a href="/cart" class="nav-link">
+						<span class="icon-shopping_cart"></span>[{{ request.user|cart_item_count }}]</a></li>
 						<li class="nav-item cta cta-colored"><a href={% url 'account_logout' %} class="nav-link">
 						<span class="clearfix d-non d-sm-inline-block">Logout</span></a></li>
 					{% else %}
