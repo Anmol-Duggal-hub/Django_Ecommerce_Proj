@@ -160,10 +160,10 @@
 						<div class="d-flex">
 							<div class="pricing">
 								{% if item.discount_price %}
-								<p class="price"><span class="mr-2 price-dc">${{ item.price }}</span>
-									<span class="price-sale">${{ item.discount_price }}</span></p>
+								<p class="price"><span class="mr-2 price-dc">${{ item.price|floatformat:2 }}</span>
+									<span class="price-sale">${{ item.discount_price|floatformat:2 }}</span></p>
 								{% else %}
-								<span class="price-sale">${{ item.price }}</span></p>
+								<span class="price-sale">${{ item.price|floatformat:2 }}</span></p>
 								{% endif %}
 							</div>
 						</div>

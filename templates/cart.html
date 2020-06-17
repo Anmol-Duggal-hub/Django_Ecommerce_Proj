@@ -32,7 +32,7 @@
 						    <tbody>
 							{% for order_item in object.items.all %}
 						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+						        <td class="product-remove"><a href="{% url 'core:remove-from-cart' order_item.item.slug %}"><span class="ion-ios-close"></span></a></td>
 
 						        <td class="image-prod"><div class="img" style="background-image:url(/static/images/product-3.jpg);"></div></td>
 
@@ -41,22 +41,28 @@
 						        	<p>{{ order_item.item.description }}</p>
 						        </td>
 
-						        <td class="price">{{ order_item.item.price }}</td>
+						        <td class="price">{{ order_item.item.price|floatformat:2 }}</td>
 
-								<td class="price">{{ order_item.item.discount_price }}</td>
+								<td class="price">{{ order_item.item.discount_price|floatformat:2 }}</td>
 
 						        <td class="quantity">
-					             	{{ order_item.quantity }}
+									<a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><i class="ion-ios-remove" ></i><a>
+					             		<span style="padding:5px;">{{ order_item.quantity }}</span>
+									<a href="{% url 'core:add-single-item-from-cart' order_item.item.slug %}"><i class="ion-ios-add"></i><a>
 					          	</td>
 
 						        <td class="total">
 								{% if order_item.item.discount_price %}
-									{{ order_item.get_total_item_discount_price }}
+									{{ order_item.get_total_item_discount_price|floatformat:2 }}
 								{% else %}
-									{{ order_item.get_total_item_price }}
+									{{ order_item.get_total_item_price|floatformat:2 }}
 								{% endif %}
 								</td>
 						      </tr><!-- END TR-->
+								{% empty %}
+							  		<tr>
+							  			<td colspan='5'>Your cart is empty!</td>
+									</tr>
 							{% endfor %}
 						    </tbody>
 						  </table>
@@ -103,7 +109,7 @@
     					<h3>Cart Totals</h3>
     					<p class="d-flex">
     						<span>Subtotal</span>
-    						<span>${{ object.get_total }}</span>
+    						<span>${{ object.get_total|floatformat:2 }}</span>
     					</p>
     					<p class="d-flex">
     						<span>Delivery</span>
@@ -111,12 +117,12 @@
     					</p>
     					<p class="d-flex">
     						<span>Discount</span>
-    						<span>$3.00</span>
+    						<span>${{ object.get_total_discount|floatformat:2 }}</span>
     					</p>
     					<hr>
     					<p class="d-flex total-price">
     						<span>Total</span>
-    						<span>${{ object.get_total }}</span>
+    						<span>${{ object.get_total|floatformat:2 }}</span>
     					</p>
     				</div>
     				<p><a href="/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>

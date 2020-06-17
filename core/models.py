@@ -50,7 +50,10 @@ class OrderItem(models.Model):
         return self.quantity * self.item.price
 
     def get_total_item_discount_price(self):
-        return self.quantity * self.item.discount_price
+        if self.item.discount_price is None:
+            return self.quantity * 0
+        elif self.item.discount_price > 0:
+            return self.quantity * self.item.discount_price
 
     def get_final_price(self):
         if self.item.discount_price:
@@ -73,3 +76,9 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.get_final_price()
         return total
+
+    def get_total_discount(self):
+        total_discount = 0
+        for order_item in self.items.all():
+            total_discount += order_item.get_total_item_discount_price()
+        return total_discount
